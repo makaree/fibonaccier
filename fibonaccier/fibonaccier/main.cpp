@@ -1,5 +1,7 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
+#include <random>
 
 /*
 This function calculates the value of fibonacci series for given number n using recursive function.
@@ -14,12 +16,23 @@ uint64_t fibonacci(int n) {
 }
 
 /*
+This function generates a random delay in between 0 to 1000 milliseconds.
+*/
+int generate_delay() {
+    std::random_device rd;
+    std::default_random_engine gen(rd());
+    std::uniform_int_distribution<> dis(0, 1000);  // Random delay up to 1000 milliseconds
+    return dis(gen);
+}
+
+/*
 This function inserts a random delay between 0 and 1 seconds then calcuates the fibonacci series for given number n.
 */
 int random_delay_in_fibonacci(int n, char c) {
+    int sleep_time = generate_delay();
+    std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
     uint64_t result = fibonacci(n);
-    // add delay part later
-    std::cout << "fibonacci(" << n << ") = " << result << " and execution is for character " << c << " \n";  
+    std::cout << "The sleep time is " << sleep_time << " , the result is " << result << " and for thread with character " << c << " \n";  
     return result;
 }
 

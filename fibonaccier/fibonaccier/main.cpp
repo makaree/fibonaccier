@@ -32,7 +32,7 @@ int random_delay_in_fibonacci(int n, char c) {
     int sleep_time = generate_delay();
     std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
     uint64_t result = fibonacci(n);
-    std::cout << "The sleep time is " << sleep_time << " , the result is " << result << " and for thread with character " << c << " \n";  
+    std::cout << "The sleep time is " << sleep_time << ", the result is " << result << " and for thread with character " << c << " \n";  
     return result;
 }
 
@@ -41,19 +41,29 @@ int main() {
     std::cout << "Enter a positive integer: ";
     std::cin >> n;
 
+    // Check to input number greater than 1
     if (n <= 1) {
         std::cout << "Enter a number greater than 1. " << std::endl;
     }
 
-    //Define two threads for async calls
+    // Define two threads for async calls
     std::thread thread1(random_delay_in_fibonacci, n, '*');
     std::thread thread2(random_delay_in_fibonacci, n, '$');
 
     // Wait for both threads to finish
     thread1.join();
     thread2.join();
-
-    std::cout << "Fibonacci number for the given number " << n << " is: " << fibonacci(n) << std::endl;
-
+    
+    std::cout << "Fibonacci number for the given number " << n << " is " << fibonacci(n) << std::endl;
+    
+    // Check which thread was finished first
+    if (!thread1.joinable() && thread2.joinable())
+        std::cout << "Thread 1 is finished first.\n";
+    else if (thread1.joinable() && !thread2.joinable())
+        std::cout << "Thread 2 is finished first.\n";
+    else if (!thread1.joinable() && !thread2.joinable())
+        std::cout << "Both threads are finished simultaneously.\n";
+    else
+        std::cout << "Both threads not finished.\n";
     return 0;
 }

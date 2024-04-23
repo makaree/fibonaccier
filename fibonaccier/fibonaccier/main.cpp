@@ -1,7 +1,7 @@
-#include <iostream>
-#include <thread>
 #include <chrono>
+#include <iostream>
 #include <random>
+#include <thread>
 
 /*
 This function calculates the value of fibonacci series for given number n using recursive function.
@@ -54,7 +54,7 @@ int main() {
     thread1.join();
     thread2.join();
     
-    std::cout << "Fibonacci number for the given number " << n << " is " << fibonacci(n) << std::endl;
+    std::cout << "Fibonacci number " << n << " value is " << fibonacci(n) << std::endl;
     
     // Check which thread was finished first
     if (!thread1.joinable() && thread2.joinable())
@@ -65,5 +65,6 @@ int main() {
         std::cout << "Both threads are finished simultaneously.\n";
     else
         std::cout << "Both threads not finished.\n";
+    system("pause");
     return 0;
 }
